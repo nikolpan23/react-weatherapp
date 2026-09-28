@@ -1,4 +1,3 @@
-import searchicon from "../images/searchicon.png";
 import cloudy from "../images/cloudy.png";
 import humid from "../images/humid.png";
 import snowy from "../images/snow.png";
@@ -6,15 +5,15 @@ import storm from "../images/storm.png";
 import sunny from "../images/sunny.png";
 import thunderstorm from "../images/thunderstorm.png";
 import windy from "../images/windy.png";
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import Http from "../Http";
 import SearchInput from "./SearchInput";
 const http = new Http(import.meta.env.VITE_API_KEY);
 
 const Weather = () => {
   const [weatherData, setWeatherData] = useState(false);
-  const [locationText, setLocationText] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
+  const [hourlyForecast, setHourlyForecast] = useState([]);
+  const [forecastTimezone, setForecastTimezone] = useState(0);
   const allIcons = {
     "01d": sunny,
     "01n": sunny,
@@ -58,17 +57,30 @@ const Weather = () => {
         : data.name,
       icon,
     });
+    setHourlyForecast([]);
+
+try {
+  const forecast = await http.getHourlyForecast(
+    data.coord.lat,
+    data.coord.lon
+  );
+
+  setHourlyForecast(forecast.list.slice(0,6));
+  setForecastTimezone(forecast.city.timezone);
+} catch (error) {
+  console.error(error);
+}
   } catch (error) {
     console.error(error);
     alert(error.message);
   }
 };
+
  const getSuggestions = async (text) => {
   if (!text.trim()) {
     setSuggestions([]);
     return;
   }
-
   try {
     const places = await http.getLocations(text);
     setSuggestions(places);
@@ -107,6 +119,30 @@ const Weather = () => {
             Wind: {weatherData.wind || "Undefined"} km/h
           </div>
         </div>
+        {hourlyForecast.length > 0 && (
+  <section className="hourly-forecast">
+    <h2>Hourly forecast</h2>
+    <div className="hourly-list">
+      {hourlyForecast.map((hour) => (
+        <div className="hourly-item" key={hour.dt}>
+          <time>
+            {new Date((hour.dt + forecastTimezone) * 1000)
+              .toLocaleTimeString("en-GB", {
+                timeZone: "UTC",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+          </time>
+          <img
+            src={allIcons[hour.weather[0].icon] || sunny}
+            alt={hour.weather[0].description}
+          />
+          <span>{Math.round(hour.main.temp)}°C</span>
+        </div>
+      ))}
+    </div>
+  </section>
+)}
       </div>
     </div>
   );

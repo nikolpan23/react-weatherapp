@@ -15,7 +15,7 @@
 min-height: 100vh;
 display: grid;
 grid-template-rows: auto 1fr auto;
-background: linear-gradient(to right, #3b47e7, #e5eaec);
+background: linear-gradient(to left,#ac27b9a9, #545ee791, #d2e9f2);
 }
 
 .weather-icon {
@@ -28,7 +28,6 @@ background: linear-gradient(to right, #3b47e7, #e5eaec);
   font-size: 50px;
   font-style: bold;
 }
-
 .search-section {
   display: flex;
   align-items: center;
@@ -189,7 +188,38 @@ background: linear-gradient(to right, #3b47e7, #e5eaec);
 .suggestions li button:focus-visible {
   background: #e9f3f6;
 }
+.hourly-forecast {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
 
+.hourly-list {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  max-width: 100%;
+  padding-bottom: 8px;
+}
+
+.hourly-item {
+  flex: 0 0 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.card .hourly-item img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+.hourly-forecast h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #012f46;
+}
 @media (max-height: 700px) {
   .weather {
     align-items: flex-start;

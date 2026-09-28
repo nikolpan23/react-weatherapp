@@ -30,6 +30,18 @@ class Http {
 
     return response.json();
   }
+
+  
+  async getHourlyForecast(lat, lon) {
+  const params = new URLSearchParams({
+    lat: String(lat),
+    lon: String(lon),
+    units: "metric",
+    appid: this.apiKey,
+  });
+
+return this.get(`${this.baseUrl}/data/2.5/forecast?${params}`);
+}
 }
 
 export default Http;
