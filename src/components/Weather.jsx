@@ -8,7 +8,7 @@ import thunderstorm from "../images/thunderstorm.png";
 import windy from "../images/windy.png";
 import React, { useEffect, useState } from "react";
 import Http from "../Http";
-
+import SearchInput from "./SearchInput";
 const http = new Http(import.meta.env.VITE_API_KEY);
 
 const Weather = () => {
@@ -63,7 +63,6 @@ const Weather = () => {
     alert(error.message);
   }
 };
-
  const getSuggestions = async (text) => {
   if (!text.trim()) {
     setSuggestions([]);
@@ -88,54 +87,13 @@ const Weather = () => {
           alt="weather icon"
         />
         <div className="temperature">
-          {weatherData.temperature || "Undefined"}°C
+          {weatherData.temperature !== undefined ? `${weatherData.temperature}°C` : "Search for a location"}
         </div>
         <div className="location">{weatherData.location || "Enter a location"}</div>
-        <div className="searchSection">
-          <div className="search-bar">
-            <input
-              type="text"
-              placeholder="Enter a location"
-              value={locationText}
-              onChange={(event) => {
-                const text = event.target.value;
-                setLocationText(text);
-                getSuggestions(text);
-              }}
-              onKeyDown={(event) => {
-                if (event.key === "Enter") {
-                  setSuggestions([]);
-                  search(locationText);
-                }
-              }}
-            />
-
-            <img
-              src={searchicon}
-              className="search-icon"
-              alt="search icon"
-              onClick={() => search(locationText)}
-            />
-            {suggestions.length > 0 && (
-              <ul className="suggestions">
-                {suggestions.map((place) => (
-                  <li key={`${place.name}-${place.lat}-${place.lon}`}>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setLocationText(`${place.name}, ${place.country}`);
-                        setSuggestions([]);
-                        search(place);
-                      }}
-                    >
-                      {place.name}, {place.country}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </div>
+       <SearchInput
+  onSearch={search}
+  getLocations={(text) => http.getLocations(text)}
+/>
         <div className="col">
           <img src={humid} className="humidity-icon" alt="humidity icon" />
           <div className="humidity">
