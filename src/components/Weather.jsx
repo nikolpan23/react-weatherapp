@@ -90,7 +90,7 @@ const Weather = () => {
         <div className="temperature">
           {weatherData.temperature || "Undefined"}°C
         </div>
-        <div className="location">{weatherData.location || "Undefined"}</div>
+        <div className="location">{weatherData.location || "Enter a location"}</div>
         <div className="searchSection">
           <div className="search-bar">
             <input
