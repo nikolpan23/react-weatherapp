@@ -64,6 +64,7 @@ background: linear-gradient(to left,#ac27b9a9, #545ee791, #d2e9f2);
   align-items: center;
   gap: 10px;
 }
+
 .card {
   width: 90%;
   max-width: 600px;
@@ -80,9 +81,20 @@ background: linear-gradient(to left,#ac27b9a9, #545ee791, #d2e9f2);
   align-items: center;
 }
 
+.humidity {
+ align-items: center;
+ display: flex;
+ font-size: 20px;
+}
+.wind {
+  align-items: center;
+  display: flex;
+  font-size: 20px;
+}
 .humidity-icon {
   width: 45px;
   height: 45px;
+
 }
 
 .location {
@@ -220,6 +232,7 @@ background: linear-gradient(to left,#ac27b9a9, #545ee791, #d2e9f2);
   margin-bottom: 10px;
   color: #012f46;
 }
+
 @media (max-height: 700px) {
   .weather {
     align-items: flex-start;

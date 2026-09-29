@@ -107,16 +107,19 @@ try {
   getLocations={(text) => http.getLocations(text)}
 />
         <div className="col">
-          <img src={humid} className="humidity-icon" alt="humidity icon" />
+    
           <div className="humidity">
-            Humidity: {weatherData.humidity || "Undefined"}%
+            {weatherData.humidity !== undefined && <img src={humid} className="humidity-icon" alt="humidity icon" />}
+          {weatherData.humidity !== undefined ? `Humidity: ${weatherData.humidity}%` : undefined}
           </div>
+    
         </div>
 
         <div className="col">
-          <img src={windy} className="wind-icon" alt="wind icon" />
           <div className="wind">
-            Wind: {weatherData.wind || "Undefined"} km/h
+             {weatherData.wind !== undefined && <img src={windy} className="wind-icon" alt="wind icon" />}
+            {weatherData.wind !== undefined ? `Wind: ${weatherData.wind} km/h` : undefined}
+         
           </div>
         </div>
         {hourlyForecast.length > 0 && (
